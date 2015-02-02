@@ -26,9 +26,10 @@ namespace hLogNG
 			{
 				var thisSecond = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 				Console.Write("Debug, " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
+				Console.Write (String.Format(" > thisSecond {0}", thisSecond));
 				var now = DateTime.Now;
 				var sleepTime = thisSecond.AddSeconds (interval) - now;
-				Console.WriteLine (String.Format(" ==> Sleeping {0}", sleepTime));
+				Console.WriteLine (String.Format(" > Sleeping {0}", sleepTime));
 				System.Threading.Thread.Sleep (sleepTime);
 			}
 			//2004-10-19 10:23:54+02
