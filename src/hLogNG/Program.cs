@@ -13,7 +13,7 @@ namespace hLogNG
 			{
 				if (DateTime.Now.ToString("ss") == "00")
 				{
-					Console.WriteLine("Second 00");
+					Console.WriteLine("Debug, Second 00");
 					break;
 				}
 				else
@@ -23,7 +23,7 @@ namespace hLogNG
 			}
 			while (true)
 			{
-				Console.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
+				Console.WriteLine("Debug, " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
 				System.Threading.Thread.Sleep (1000);
 			}
 			//2004-10-19 10:23:54+02
