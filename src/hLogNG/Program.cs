@@ -18,6 +18,7 @@ namespace hLogNG
 				}
 				else
 				{
+					Console.WriteLine("Debug, Waiting for second 00");
 					System.Threading.Thread.Sleep(1000);
 				}
 			}
