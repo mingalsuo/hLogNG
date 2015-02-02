@@ -1,37 +1,40 @@
 using System;
 using System.Data;
+using System.Timers;
 using Npgsql;
 
 namespace hLogNG
 {
 	class MainClass
 	{
+		public static void doStuff (object source, ElapsedEventArgs e)
+		{
+			Console.WriteLine (DateTime.Now.ToString ("yyyy-MM-dd HH:mm:ss.fffzz"));
+		}
+
 		public static void Main (string[] args)
 		{
 			int interval = 60;
-			while(true)
-			{
-				if (DateTime.Now.ToString("ss") == "00")
-				{
-					Console.WriteLine("Debug, Second 00");
+			interval = interval * 1000;
+			while (true) {
+				if (DateTime.Now.ToString ("ss") == "00") {
+					Console.WriteLine ("Debug, Second 00");
 					break;
-				}
-				else
-				{
-					Console.WriteLine("Debug, Waiting for second 00");
-					System.Threading.Thread.Sleep(1000);
+				} else {
+					Console.WriteLine ("Debug, Waiting for second 00");
+					System.Threading.Thread.Sleep (100);
 				}
 			}
-			while (true)
-			{
-				var thisSecond = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-				Console.Write("Debug, " + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
-				Console.Write (String.Format(" > thisSecond {0}", thisSecond));
-				var now = DateTime.Now;
-				var sleepTime = thisSecond.AddSeconds (interval) - now;
-				Console.WriteLine (String.Format(" > Sleeping {0}", sleepTime));
-				System.Threading.Thread.Sleep (sleepTime);
-			}
+			// Create a timer with a two second interval.
+			System.Timers.Timer aTimer = new System.Timers.Timer (interval);
+			// Hook up the Elapsed event for the timer. 
+			aTimer.Elapsed += doStuff;
+			aTimer.Enabled = true;
+
+			Console.WriteLine("Press the Enter key to exit the program... ");
+			Console.ReadLine();
+			Console.WriteLine("Terminating the application...");
+
 			//2004-10-19 10:23:54+02
 			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
 //			string connectionString =
