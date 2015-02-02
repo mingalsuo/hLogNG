@@ -14,14 +14,25 @@ namespace hLogNG
 
 		public static void Main (string[] args)
 		{
-			int interval = 60;
+			var parser = new IniParser.FileIniDataParser ();
+			IniParser.Model.IniData data = parser.ReadFile ("Config.ini");
+
+			var interval = Convert.ToInt32(data ["MAIN"] ["interval"]);
+			String objects = data ["MAIN"] ["objects"];
+			char[] delim = {','};
+			String[] objList = objects.Split (delim);
+
+			foreach (string s in objList) {
+				System.Console.WriteLine (s);
+			}
+
 			interval = interval * 1000;
 			while (true) {
-				if (DateTime.Now.ToString ("ss") == "00") {
-					Console.WriteLine ("Debug, Second 00");
+				if (DateTime.Now.Second == 0) {
+					//Console.WriteLine ("Debug, Second 00");
 					break;
 				} else {
-					Console.WriteLine ("Debug, Waiting for second 00");
+					//Console.WriteLine ("Debug, Waiting for second 00");
 					System.Threading.Thread.Sleep (100);
 				}
 			}
@@ -31,9 +42,9 @@ namespace hLogNG
 			aTimer.Elapsed += doStuff;
 			aTimer.Enabled = true;
 
-			Console.WriteLine("Press the Enter key to exit the program... ");
-			Console.ReadLine();
-			Console.WriteLine("Terminating the application...");
+			Console.WriteLine ("Press the Enter key to exit the program... ");
+			Console.ReadLine ();
+			Console.WriteLine ("Terminating the application...");
 
 			//2004-10-19 10:23:54+02
 			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));

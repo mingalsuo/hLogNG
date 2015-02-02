@@ -34,6 +34,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="Npgsql" />
+    <Reference Include="INIFileParser">
+      <HintPath>bin\Debug\INIFileParser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
