@@ -22,10 +22,10 @@ namespace hLogNG
 			// Hook up the Elapsed event for the timer. 
 			aTimer.Elapsed += MyLogger.onTimerEvent;
 
-			//while (DateTime.Now.Second != 0)
-			//{
-			//	System.Threading.Thread.Sleep (10);
-			//}
+			while (DateTime.Now.Second != 0)
+			{
+				System.Threading.Thread.Sleep (10);
+			}
 
 			aTimer.Enabled = true;
 

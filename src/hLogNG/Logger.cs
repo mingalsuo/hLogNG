@@ -23,6 +23,7 @@ namespace hLogNG
 
 		public void onTimerEvent (object source, ElapsedEventArgs e)
 		{
+			Console.WriteLine ("{0}", e.SignalTime.ToString ("yyyy-MM-dd HH:mm:ss.fffzz"));
 			String objects = data ["MAIN"] ["objects"];
 			char[] delim = {','};
 			String[] objList = objects.Split (delim);
