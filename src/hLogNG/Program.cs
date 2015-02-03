@@ -7,11 +7,6 @@ namespace hLogNG
 {
 	class MainClass
 	{
-		public static void doStuff (object source, ElapsedEventArgs e)
-		{
-			Console.WriteLine (DateTime.Now.ToString ("yyyy-MM-dd HH:mm:ss.fffzz"));
-		}
-
 		public static void Main (string[] args)
 		{
 			Logger MyLogger = new Logger ("Config.ini");

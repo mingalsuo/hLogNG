@@ -42,7 +42,7 @@ namespace hLogNG
 			{
 				myProcess.StartInfo.UseShellExecute = false;
 				myProcess.StartInfo.FileName = "python";
-				String args = String.Format("{0} {1} {2} {3}",
+				String args = String.Format("{0} {1} {2} \"{3}\"",
 					                            data["MAIN"]["script"],
 					                            data ["MAIN"] ["device"],
 					                            data ["MAIN"] ["devicetype"],
