@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Timers;
 using System.Diagnostics;
+using Npgsql;
 
 namespace hLogNG
 {
@@ -32,7 +33,11 @@ namespace hLogNG
 			foreach (var item in objList)
 			{
 				values.Add(readValues(item));
-				Console.Write(values[values.Count - 1]);
+				Console.WriteLine(values[values.Count - 1]);
+			}
+			if (values.Count == objList.Length)
+			{
+				storeValues(objList, values);
 			}
 		}
 		private String readValues(String item)
@@ -52,6 +57,7 @@ namespace hLogNG
 				myProcess.StartInfo.RedirectStandardOutput = true;
 				myProcess.Start ();
 				string output = myProcess.StandardOutput.ReadToEnd();
+				output = output.Replace("\n", "");
 				myProcess.WaitForExit();
 				return output;
 			}
@@ -60,6 +66,44 @@ namespace hLogNG
 				Console.WriteLine (e.Message);
 			}
 			return null;
+		}
+		private void storeValues(String[] objList, List<String> values)
+		{
+			//2004-10-19 10:23:54+02
+			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
+			//			string connectionString =
+			//				"Server=127.0.0.1;" +
+			//					"Database=DATABASE;" +
+			//					"User ID=USER;" +
+			//					"Password=PASSWORD;";
+			//			IDbConnection dbcon;
+			//			dbcon = new NpgsqlConnection(connectionString);
+			//			dbcon.Open();
+			//			IDbCommand dbcmd = dbcon.CreateCommand();
+			//			// requires a table to be created named employee
+			//			// with columns firstname and lastname
+			//			// such as,
+			//			//        CREATE TABLE employee (
+			//			//           firstname varchar(32),
+			//			//           lastname varchar(32));
+			//			string sql =
+			//				"SELECT firstname, lastname " +
+			//					"FROM employee";
+			//			dbcmd.CommandText = sql;
+			//			IDataReader reader = dbcmd.ExecuteReader();
+			//			while(reader.Read()) {
+			//				string FirstName = reader.GetString(reader.GetOrdinal("firstname"));
+			//				string LastName = reader.GetString(reader.GetOrdinal("lastname"));
+			//				Console.WriteLine("Name: " +
+			//				                  FirstName + " " + LastName);
+			//			}
+			//			// clean up
+			//			reader.Close();
+			//			reader = null;
+			//			dbcmd.Dispose();
+			//			dbcmd = null;
+			//			dbcon.Close();
+			//			dbcon = null;
 		}
 	}
 }
