@@ -17,29 +17,27 @@ namespace hLogNG
 			var parser = new IniParser.FileIniDataParser ();
 			IniParser.Model.IniData data = parser.ReadFile ("Config.ini");
 
-			var interval = Convert.ToInt32(data ["MAIN"] ["interval"]);
+			var interval = Convert.ToInt32 (data ["MAIN"] ["interval"]);
 			String objects = data ["MAIN"] ["objects"];
 			char[] delim = {','};
 			String[] objList = objects.Split (delim);
 
-			foreach (string s in objList) {
+			foreach (string s in objList)
+			{
 				System.Console.WriteLine (s);
 			}
 
 			interval = interval * 1000;
-			while (true) {
-				if (DateTime.Now.Second == 0) {
-					//Console.WriteLine ("Debug, Second 00");
-					break;
-				} else {
-					//Console.WriteLine ("Debug, Waiting for second 00");
-					System.Threading.Thread.Sleep (100);
-				}
-			}
 			// Create a timer with a two second interval.
 			System.Timers.Timer aTimer = new System.Timers.Timer (interval);
 			// Hook up the Elapsed event for the timer. 
 			aTimer.Elapsed += doStuff;
+
+			while (DateTime.Now.Second != 0)
+			{
+				System.Threading.Thread.Sleep (100);
+			}
+
 			aTimer.Enabled = true;
 
 			Console.WriteLine ("Press the Enter key to exit the program... ");
