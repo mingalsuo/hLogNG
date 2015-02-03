@@ -14,29 +14,18 @@ namespace hLogNG
 
 		public static void Main (string[] args)
 		{
-			var parser = new IniParser.FileIniDataParser ();
-			IniParser.Model.IniData data = parser.ReadFile ("Config.ini");
+			Logger MyLogger = new Logger ("Config.ini");
 
-			var interval = Convert.ToInt32 (data ["MAIN"] ["interval"]);
-			String objects = data ["MAIN"] ["objects"];
-			char[] delim = {','};
-			String[] objList = objects.Split (delim);
-
-			foreach (string s in objList)
-			{
-				System.Console.WriteLine (s);
-			}
-
-			interval = interval * 1000;
+			int interval = MyLogger.interval * 1000;
 			// Create a timer with a two second interval.
 			System.Timers.Timer aTimer = new System.Timers.Timer (interval);
 			// Hook up the Elapsed event for the timer. 
-			aTimer.Elapsed += doStuff;
+			aTimer.Elapsed += MyLogger.onTimerEvent;
 
-			while (DateTime.Now.Second != 0)
-			{
-				System.Threading.Thread.Sleep (100);
-			}
+			//while (DateTime.Now.Second != 0)
+			//{
+			//	System.Threading.Thread.Sleep (10);
+			//}
 
 			aTimer.Enabled = true;
 
