@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Timers;
 using System.Diagnostics;
 using Npgsql;
@@ -17,6 +18,8 @@ namespace hLogNG
 			data = parser.ReadFile (IniFile);
 
 			interval = Convert.ToInt32 (data ["MAIN"] ["interval"]);
+
+			sqlQuery ("CREATE TABLE IF NOT EXISTS values (id SERIAL PRIMARY KEY, timestamp TIMESTAMP WITH TIME ZONE, object TEXT, value REAL);");
 		}
 
 		private String sqlQuery (String sql)
@@ -27,14 +30,17 @@ namespace hLogNG
 			data ["MAIN"] ["dbuser"],
 			data ["MAIN"] ["dbpass"]);
 			Console.WriteLine("connectionString: {0}", connectionString);
+			Console.WriteLine (sql);
 
-			return connectionString;
-//			IDbConnection dbcon;
-//			dbcon = new NpgsqlConnection (connectionString);
-//			dbcon.Open ();
-//			IDbCommand dbcmd = dbcon.CreateCommand ();
-//
-//			dbcmd.CommandText = sql;
+			IDbConnection dbcon;
+			dbcon = new NpgsqlConnection (connectionString);
+			dbcon.Open ();
+			IDbCommand dbcmd = dbcon.CreateCommand ();
+
+			dbcmd.CommandText = sql;
+
+			dbcmd.ExecuteNonQuery ();
+
 //			IDataReader reader = dbcmd.ExecuteReader ();
 //			while (reader.Read()) {
 //				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
@@ -42,13 +48,15 @@ namespace hLogNG
 //				Console.WriteLine ("Name: " +
 //					FirstName + " " + LastName);
 //			}
-//			// clean up
-//			reader.Close ();
-//			reader = null;
-//			dbcmd.Dispose ();
-//			dbcmd = null;
-//			dbcon.Close ();
-//			dbcon = null;
+			// clean up
+			//reader.Close ();
+			//reader = null;
+			dbcmd.Dispose ();
+			dbcmd = null;
+			dbcon.Close ();
+			dbcon = null;
+
+			return connectionString;
 		}
 
 		public void onTimerEvent (object source, ElapsedEventArgs e)
@@ -102,12 +110,12 @@ namespace hLogNG
 		{
 			//2004-10-19 10:23:54+02
 			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
-			Console.WriteLine ("Values: {0} Objects: {1}", values.Count, objList.Length);
+			//Console.WriteLine ("Values: {0} Objects: {1}", values.Count, objList.Length);
 
 			int index = 0;
 			while (index < values.Count)
 			{
-				sqlQuery (String.Format("INSERT INTO Values (timestamp, object, value) " +
+				sqlQuery (String.Format("INSERT INTO values (timestamp, object, value) " +
 				                        "VALUES ({0},{1},{2})",
 				                        timeStamp.ToString ("yyyy-MM-dd HH:mm:ss.fffzz"),
 				                        objList[index],
