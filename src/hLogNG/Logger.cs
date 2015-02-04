@@ -19,38 +19,40 @@ namespace hLogNG
 
 			interval = Convert.ToInt32 (data ["MAIN"] ["interval"]);
 
-			sqlQuery ("CREATE TABLE IF NOT EXISTS values (id SERIAL PRIMARY KEY, timestamp TIMESTAMP WITH TIME ZONE, object TEXT, value REAL);");
+			sqlQuery ("CREATE TABLE IF NOT EXISTS log (id SERIAL PRIMARY KEY, timestamp TIMESTAMP WITH TIME ZONE, object TEXT, value REAL);");
 		}
 
 		private String sqlQuery (String sql)
 		{
-			string connectionString = String.Format("Server={0};Database={1};User ID={2};Password={3};",
-			data ["MAIN"] ["dbaddr"],
-			data ["MAIN"] ["dbname"],
-			data ["MAIN"] ["dbuser"],
-			data ["MAIN"] ["dbpass"]);
-			Console.WriteLine("connectionString: {0}", connectionString);
+			string connectionString = String.Format ("Server={0};Database={1};User ID={2};Password={3};",
+			                                        data ["MAIN"] ["dbaddr"],
+			                                        data ["MAIN"] ["dbname"],
+			                                        data ["MAIN"] ["dbuser"],
+			                                        data ["MAIN"] ["dbpass"]);
+			Console.WriteLine ("connectionString: {0}", connectionString);
 			Console.WriteLine (sql);
 
 			IDbConnection dbcon;
 			dbcon = new NpgsqlConnection (connectionString);
 			dbcon.Open ();
 			IDbCommand dbcmd = dbcon.CreateCommand ();
-
 			dbcmd.CommandText = sql;
 
-			dbcmd.ExecuteNonQuery ();
+			Int32 rowsaffected = dbcmd.ExecuteNonQuery ();
+			Console.WriteLine ("Rows: {0}", rowsaffected);
 
-//			IDataReader reader = dbcmd.ExecuteReader ();
-//			while (reader.Read()) {
-//				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
-//				string LastName = reader.GetString (reader.GetOrdinal ("lastname"));
-//				Console.WriteLine ("Name: " +
-//					FirstName + " " + LastName);
-//			}
+			//			IDataReader reader = dbcmd.ExecuteReader ();
+			//			while (reader.Read()) {
+			//				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
+			//				string LastName = reader.GetString (reader.GetOrdinal ("lastname"));
+			//				Console.WriteLine ("Name: " +
+			//					FirstName + " " + LastName);
+			//			}
 			// clean up
 			//reader.Close ();
 			//reader = null;
+
+
 			dbcmd.Dispose ();
 			dbcmd = null;
 			dbcon.Close ();
@@ -112,15 +114,16 @@ namespace hLogNG
 			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
 			//Console.WriteLine ("Values: {0} Objects: {1}", values.Count, objList.Length);
 
-			int index = 0;
-			while (index < values.Count)
+			Console.WriteLine ("Values count {0}", values.Count);
+
+			for (int i = 0; i < values.Count; i++)
 			{
-				sqlQuery (String.Format("INSERT INTO values (timestamp, object, value) " +
-				                        "VALUES ({0},{1},{2})",
+				Console.WriteLine ("i: {0}", i);
+				sqlQuery (String.Format("INSERT INTO log (timestamp, object, value) " +
+				                        "VALUES ('{0}','{1}',{2});",
 				                        timeStamp.ToString ("yyyy-MM-dd HH:mm:ss.fffzz"),
-				                        objList[index],
-				                        values[index]));
-				index++;
+				                        objList[i],
+				                        values[i]));
 			}
 		}
 	}
