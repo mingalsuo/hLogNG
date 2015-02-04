@@ -42,24 +42,26 @@ namespace hLogNG
 		}
 		private String readValues(String item)
 		{
-			Process myProcess = new Process ();
 			try
 			{
-				myProcess.StartInfo.UseShellExecute = false;
-				myProcess.StartInfo.FileName = "python";
-				String args = String.Format("{0} {1} {2} \"{3}\"",
-					                            data["MAIN"]["script"],
-					                            data ["MAIN"] ["device"],
-					                            data ["MAIN"] ["devicetype"],
-					                            item);
-				myProcess.StartInfo.Arguments = args;
-				myProcess.StartInfo.CreateNoWindow = true;
-				myProcess.StartInfo.RedirectStandardOutput = true;
-				myProcess.Start ();
-				string output = myProcess.StandardOutput.ReadToEnd();
-				output = output.Replace("\n", "");
-				myProcess.WaitForExit();
-				return output;
+				using (Process myProcess = new Process ())
+				{
+					myProcess.StartInfo.UseShellExecute = false;
+					myProcess.StartInfo.FileName = "python";
+					String args = String.Format("{0} {1} {2} \"{3}\"",
+						                            data["MAIN"]["script"],
+						                            data ["MAIN"] ["device"],
+						                            data ["MAIN"] ["devicetype"],
+						                            item);
+					myProcess.StartInfo.Arguments = args;
+					myProcess.StartInfo.CreateNoWindow = true;
+					myProcess.StartInfo.RedirectStandardOutput = true;
+					myProcess.Start ();
+					string output = myProcess.StandardOutput.ReadToEnd();
+					output = output.Replace("\n", "");
+					myProcess.WaitForExit();
+					return output;
+				}
 			}
 			catch (Exception e)
 			{
