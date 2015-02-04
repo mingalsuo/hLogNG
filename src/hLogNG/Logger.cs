@@ -17,9 +17,6 @@ namespace hLogNG
 			data = parser.ReadFile (IniFile);
 
 			interval = Convert.ToInt32 (data ["MAIN"] ["interval"]);
-			//String devicetype = data ["MAIN"] ["devicetype"];
-			//String device = data ["MAIN"] ["device"];
-			//String script = data ["MAIN"] ["script"];
 		}
 
 		private String sqlQuery (String sql)
