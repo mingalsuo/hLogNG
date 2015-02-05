@@ -32,33 +32,33 @@ namespace hLogNG
 			Console.WriteLine ("connectionString: {0}", connectionString);
 			Console.WriteLine (sql);
 
-			IDbConnection dbcon;
-			dbcon = new NpgsqlConnection (connectionString);
-			dbcon.Open ();
-			IDbCommand dbcmd = dbcon.CreateCommand ();
-			dbcmd.CommandText = sql;
+			using (IDbConnection dbcon = new NpgsqlConnection (connectionString)) {
+				dbcon.Open ();
+				IDbCommand dbcmd = dbcon.CreateCommand ();
+				dbcmd.CommandText = sql;
 
-			Int32 rowsaffected = dbcmd.ExecuteNonQuery ();
-			Console.WriteLine ("Rows: {0}", rowsaffected);
+				Int32 rowsaffected = dbcmd.ExecuteNonQuery ();
+				Console.WriteLine ("Rows: {0}", rowsaffected);
 
-			//			IDataReader reader = dbcmd.ExecuteReader ();
-			//			while (reader.Read()) {
-			//				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
-			//				string LastName = reader.GetString (reader.GetOrdinal ("lastname"));
-			//				Console.WriteLine ("Name: " +
-			//					FirstName + " " + LastName);
-			//			}
-			// clean up
-			//reader.Close ();
-			//reader = null;
+				//			IDataReader reader = dbcmd.ExecuteReader ();
+				//			while (reader.Read()) {
+				//				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
+				//				string LastName = reader.GetString (reader.GetOrdinal ("lastname"));
+				//				Console.WriteLine ("Name: " +
+				//					FirstName + " " + LastName);
+				//			}
+				// clean up
+				//reader.Close ();
+				//reader = null;
 
 
-			dbcmd.Dispose ();
-			dbcmd = null;
-			dbcon.Close ();
-			dbcon = null;
+				dbcmd.Dispose ();
+				dbcmd = null;
+				dbcon.Close ();
+				//dbcon = null;
 
-			return connectionString;
+				return connectionString;
+			}
 		}
 
 		public void onTimerEvent (object source, ElapsedEventArgs e)
