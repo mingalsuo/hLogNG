@@ -1,3 +1,4 @@
 src/*.userprefs
 bin/
 *.ini
+obj/
