@@ -40,22 +40,9 @@ namespace hLogNG
 				Int32 rowsaffected = dbcmd.ExecuteNonQuery ();
 				Console.WriteLine ("Rows: {0}", rowsaffected);
 
-				//			IDataReader reader = dbcmd.ExecuteReader ();
-				//			while (reader.Read()) {
-				//				string FirstName = reader.GetString (reader.GetOrdinal ("firstname"));
-				//				string LastName = reader.GetString (reader.GetOrdinal ("lastname"));
-				//				Console.WriteLine ("Name: " +
-				//					FirstName + " " + LastName);
-				//			}
-				// clean up
-				//reader.Close ();
-				//reader = null;
-
-
 				dbcmd.Dispose ();
 				dbcmd = null;
 				dbcon.Close ();
-				//dbcon = null;
 
 				return connectionString;
 			}
@@ -110,10 +97,6 @@ namespace hLogNG
 		}
 		private void storeValues(String[] objList, List<String> values, DateTime timeStamp)
 		{
-			//2004-10-19 10:23:54+02
-			//Console.WriteLine(DateTime.Now() + "\n" + DateTime.Now.ToString("HH:mm:ss") + "\n" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fffzz"));
-			//Console.WriteLine ("Values: {0} Objects: {1}", values.Count, objList.Length);
-
 			Console.WriteLine ("Values count {0}", values.Count);
 
 			for (int i = 0; i < values.Count; i++)
