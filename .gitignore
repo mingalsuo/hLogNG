@@ -3,3 +3,4 @@ bin/
 *.ini
 obj/
 .vs/
+packages/
